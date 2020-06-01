@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Generator
 
 import numpy as np
+import torch.utils.data
 
 from cloud_common.glossary import Glossary
 
@@ -22,11 +22,13 @@ class Sample(ABC):
         ...
 
 
-class Dataset(ABC):
+class Dataset(torch.utils.data.Dataset):
     glossary = Glossary(name='Dataset', definition='Describes a set of {sample}s'.format(
         sample=Sample.glossary.name
     ))
 
-    @abstractmethod
-    def items(self) -> Generator[Sample, None, None]:
-        ...
+    def __getitem__(self, index):
+        raise NotImplementedError
+
+    def __len__(self):
+        raise NotImplementedError
